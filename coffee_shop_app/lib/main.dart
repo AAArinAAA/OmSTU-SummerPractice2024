@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'custom_widgets/button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +29,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String currentCategory = "Cold Coffees"; // Начальная категория
+  String currentCategory = "Cold Coffees"; 
   final ScrollController _scrollController = ScrollController();
   ScrollController _horizontalScrollController = ScrollController();
 
@@ -38,19 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
-    _horizontalScrollController = ScrollController(); // Initialize _horizontalScrollController
+    _horizontalScrollController = ScrollController();
   }
-
 
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
-    _horizontalScrollController.dispose(); // Dispose _horizontalScrollController
+    _horizontalScrollController.dispose();
     super.dispose();
   }
-
-
 
   int _calculateCategoryIndex(double offset) {
     return (offset / 450).floor();
@@ -73,31 +71,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
         _horizontalScrollController.animateTo(
           scrollTo,
+          // ignore: prefer_const_constructors
           duration: Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
       }
     });
   }
-
-  String _determineCategoryInView() {
-  double position = 0.0;
-  String categoryInView;
-
-  for (int i = 0; i < categories.length; i++) {
-    RenderBox renderBox = context.findRenderObject() as RenderBox;
-    double itemPosition = renderBox.localToGlobal(Offset.zero).dy;
-    
-    if (itemPosition >= 0 && itemPosition < MediaQuery.of(context).size.height) {
-      position = i.toDouble(); // Приводим индекс к типу double
-      break;
-    }
-  }
-
-  categoryInView = categories[position.toInt()]; // Приводим position к типу int
-
-  return categoryInView;
-}
 
 
 void _selectCategory(String category) {
@@ -113,25 +93,21 @@ void _selectCategory(String category) {
   }
 }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Горизонтальное меню категорий
           const SizedBox(height: 20,),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            controller: _horizontalScrollController, // Use _horizontalScrollController here
+            controller: _horizontalScrollController,
             child: Row(
               children: categories.map((category) => _buildCategoryButton(category)).toList(),
             ),
           ),
 
-          // Основной список товаров
           Expanded(
             child: SingleChildScrollView(
               controller: _scrollController,
@@ -141,66 +117,66 @@ void _selectCategory(String category) {
                   _buildCategorySection("Cold Coffees", [
                     Row(
                       children: [
-                    _buildItem("Iced Flat White", "assets/Iced Flat White.jpg", "200 ₽"),
-                    _buildItem("Iced Shaken Espresso", "assets/Iced Shaken Espresso.jpg", "200 ₽"),
+                    _buildItem("Iced Flat White", "assets/Iced Flat White.jpg", 200),
+                    _buildItem("Iced Shaken Espresso", "assets/Iced Shaken Espresso.jpg", 250),
                       ],
                     ),
                     Row(
                       children: [
-                    _buildItem("Iced Caffè Mocha", "assets/Iced Caffè Mocha.jpg", "200 ₽"),
-                    _buildItem("Iced Caramel Macchiato", "assets/Iced Caramel Macchiato.jpg", "200 ₽"),
+                    _buildItem("Iced Caffè Mocha", "assets/Iced Caffè Mocha.jpg", 250),
+                    _buildItem("Iced Caramel Macchiato", "assets/Iced Caramel Macchiato.jpg", 250),
                       ],
                     )
                   ]),
                   _buildCategorySection("Hot Coffees", [
                     Row(
                       children: [
-                    _buildItem("Cappuccino", "assets/Cappuccino.jpg", "200 ₽"),
-                    _buildItem("Caramel Macchiato", "assets/Caramel Macchiato.jpg", "200 ₽"),
+                    _buildItem("Cappuccino", "assets/Cappuccino.jpg", 200),
+                    _buildItem("Caramel Macchiato", "assets/Caramel Macchiato.jpg", 200),
                       ],),
                     Row(
                       children: [
-                    _buildItem("Caffè Mocha", "assets/Caffè Mocha.jpg", "200 ₽"),
-                    _buildItem("Caffè Misto", "assets/Caffè Misto.jpg", "200 ₽"),
+                    _buildItem("Caffè Mocha", "assets/Caffè Mocha.jpg", 250),
+                    _buildItem("Caffè Misto", "assets/Caffè Misto.jpg", 200),
                       ],),
                   ]),
                   _buildCategorySection("Bottled Beverages", [
                     Row(
                       children: [
-                        _buildItem("Orange juice, 0.2L", "assets/Orange juice, 0.2L.png", "200 ₽"),
-                        _buildItem("Mojito", "assets/Mojito.png", "200 ₽"),
+                        _buildItem("Orange juice, 0.2L", "assets/Orange juice, 0.2L.png", 50),
+                        _buildItem("Mojito", "assets/Mojito.png", 75),
                       ],
                     ),
                     
                     Row(
                       children: [
-                        _buildItem("Evolution Fresh® Orange", "assets/Evolution Fresh® Orange.jpg", "200 ₽"),
-                        _buildItem("Horizon® Chocolate Milk", "assets/Horizon® Chocolate Milk.jpg", "200 ₽"),
+                        _buildItem("Evolution Fresh® Orange", "assets/Evolution Fresh® Orange.jpg", 125),
+                        _buildItem("Horizon® Chocolate Milk", "assets/Horizon® Chocolate Milk.jpg", 60),
                       ],
                     )
                   ]),
                   _buildCategorySection("Lunch & Breakfast", [
                     Row (children: [
-                    _buildItem("Bacon, Sausage & Egg Wrap", "assets/Bacon, Sausage & Egg Wrap.jpg", "200 ₽"),
-                    _buildItem("Bacon & Gruyère Egg Bites", "assets/Bacon & Gruyère Egg Bites.jpg", "200 ₽"),
+                    _buildItem("Bacon, Sausage & Egg Wrap", "assets/Bacon, Sausage & Egg Wrap.jpg", 325),
+                    _buildItem("Bacon & Gruyère Egg Bites", "assets/Bacon & Gruyère Egg Bites.jpg", 175),
                     ],),
                     
                     Row (children: [
-                    _buildItem("Ham & Swiss on Baguette", "assets/Ham & Swiss on Baguette.jpg", "200 ₽"),
-                    _buildItem("Cheese & Fruit Protein Box", "assets/Cheese & Fruit Protein Box.jpg", "200 ₽"),
+                    _buildItem("Ham & Swiss on Baguette", "assets/Ham & Swiss on Baguette.jpg", 250),
+                    _buildItem("Cheese & Fruit Protein Box", "assets/Cheese & Fruit Protein Box.jpg", 400),
                     ],)
                   ]),
                   _buildCategorySection("Milk & Juice", [
                     Row(
                       children: [
-                        _buildItem("Hot Chocolate", "assets/Hot Chocolate.jpg", "200 ₽"),
-                        _buildItem("Caramel Apple Spice", "assets/Caramel Apple Spice.jpg", "200 ₽"),
+                        _buildItem("Hot Chocolate", "assets/Hot Chocolate.jpg", 200),
+                        _buildItem("Caramel Apple Spice", "assets/Caramel Apple Spice.jpg", 150),
                       ],
                     ),
                     Row(
                       children: [
-                        _buildItem("White Hot Chocolate", "assets/White Hot Chocolate.jpg", "200 ₽"),
-                        _buildItem("Vanilla Crème", "assets/Vanilla Crème.jpg", "200 ₽"),
+                        _buildItem("White Hot Chocolate", "assets/White Hot Chocolate.jpg", 200),
+                        _buildItem("Vanilla Crème", "assets/Vanilla Crème.jpg", 150),
                   ]),
                   const SizedBox(height: 20,)
                 ],
@@ -222,7 +198,7 @@ void _selectCategory(String category) {
         child: Container(
           height: 36,
           decoration: BoxDecoration(
-            color: currentCategory == category ? const Color.fromRGBO(133, 195, 222, 1) : Colors.grey[300],
+            color: currentCategory == category ? const Color.fromRGBO(205, 180, 219, 1) : Colors.grey[300],
             borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.all(8.0),
@@ -258,8 +234,8 @@ void _selectCategory(String category) {
         ),
         const SizedBox(height: 5),
         Wrap(
-          spacing: 4.0, // горизонтальный отступ между товарами
-          runSpacing: 2.0, // вертикальный отступ между рядами
+          spacing: 4.0,
+          runSpacing: 2.0,
           children: items,
         ),
       ],
@@ -268,14 +244,13 @@ void _selectCategory(String category) {
 }
 
 
-  Widget _buildItem(String itemName, String imageUrl, String cost) {
+  Widget _buildItem(String itemName, String imageUrl, int cost) {
   return GestureDetector(
     onTap: () {
-      // Действие при нажатии на товар
     },
     child: Container(
       width: 160,
-      height: 260,
+      height: 240,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       decoration: BoxDecoration(
@@ -295,13 +270,13 @@ void _selectCategory(String category) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 115,  // Ширина изображения
-            height: 115, // Высота изображения
+            width: 100,
+            height: 100,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
                 image: AssetImage(imageUrl),
-                fit: BoxFit.contain, // Подгонка изображения
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -326,20 +301,9 @@ void _selectCategory(String category) {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Действие при нажатии на кнопку
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 4),
-                  backgroundColor: const Color.fromRGBO(133, 195, 222, 1),
-                  textStyle: const TextStyle(color: Colors.white),
-                ),
-                child: Text(
-                  cost,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-              ),
+              ProductButton(
+                    price: cost
+                    ,),
             ],
           ),
         ],
