@@ -3,21 +3,30 @@ import 'package:flutter/material.dart';
 class ProductButton extends StatefulWidget {
   final int price;
 
-  const ProductButton({Key? key, required this.price}) : super(key: key);
+  ProductButton({Key? key, required this.price}) : super(key: key);
 
   @override
   _ProductButtonState createState() => _ProductButtonState();
 }
 
 class _ProductButtonState extends State<ProductButton> {
-  int itemCount = 0; // Начальное количество товара в корзине
-
+  late int totalItemsInCart;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          itemCount++; // Увеличиваем количество товара при нажатии на кнопку
+          if (totalItemsInCart < 10) {
+            totalItemsInCart++; // Увеличиваем общее количество товаров в корзине
+            // Здесь должна быть логика добавления товара в корзину
+          } else {
+            // Показываем SnackBar, если достигнуто максимальное количество товаров в корзине
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Максимальное количество товаров в корзине - 10'),
+              ),
+            );
+          }
         });
       },
       child: AnimatedContainer(
@@ -28,23 +37,19 @@ class _ProductButtonState extends State<ProductButton> {
           color: const Color.fromRGBO(205, 180, 219, 1),
           borderRadius: BorderRadius.circular(30.0),
         ),
-        child: Container(
-          width: 100,
-          height: 24,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: const Color.fromRGBO(205, 180, 219, 1),
-          ),
-          child: 
-            Expanded(
-              child: itemCount == 0
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 100.0,
+              height: 25,
+              child: totalItemsInCart == 0
                   ? Text(
-                    '      ${widget.price} ₽', 
-                    style: 
-                    const TextStyle(
-                      color: Colors.white, 
-                      fontSize:16, 
-                      fontWeight: FontWeight.bold
+                      '       ${widget.price} ₽     ',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     )
                   : Row(
@@ -53,7 +58,8 @@ class _ProductButtonState extends State<ProductButton> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              if (itemCount > 0) itemCount--;
+                              if (totalItemsInCart > 0) totalItemsInCart--;
+                              // Здесь должна быть логика уменьшения количества товара в корзине
                             });
                           },
                           child: Container(
@@ -67,12 +73,22 @@ class _ProductButtonState extends State<ProductButton> {
                           ),
                         ),
                         const SizedBox(width: 8.0),
-                        Text('$itemCount', style: const TextStyle(color: Colors.white, fontSize:16, fontWeight: FontWeight.bold)),
+                        Text('$totalItemsInCart', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                         const SizedBox(width: 8.0),
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              itemCount++;
+                              if (totalItemsInCart < 10) {
+                                totalItemsInCart++;
+                                // Здесь должна быть логика добавления товара в корзину
+                              } else {
+                                // Показываем SnackBar, если достигнуто максимальное количество товаров в корзине
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Максимальное количество товаров в корзине - 10'),
+                                  ),
+                                );
+                              }
                             });
                           },
                           child: Container(
@@ -88,6 +104,7 @@ class _ProductButtonState extends State<ProductButton> {
                       ],
                     ),
             ),
+          ],
         ),
       ),
     );

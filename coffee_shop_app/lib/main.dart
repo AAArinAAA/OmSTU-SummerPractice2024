@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'custom_widgets/button.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -32,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String currentCategory = "Cold Coffees"; 
   final ScrollController _scrollController = ScrollController();
   ScrollController _horizontalScrollController = ScrollController();
+  int totalItemsInCart = 0; 
 
   List<String> categories = ["Cold Coffees", "Hot Coffees", "Bottled Beverages", "Lunch & Breakfast", "Milk & Juice"];
 
@@ -71,8 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         _horizontalScrollController.animateTo(
           scrollTo,
-          // ignore: prefer_const_constructors
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
       }
@@ -88,7 +89,7 @@ void _selectCategory(String category) {
   int index = categories.indexOf(category);
   if (index != -1) {
     _scrollController.jumpTo(
-      index * 610,
+      index * 570,
     );
   }
 }
@@ -178,7 +179,7 @@ void _selectCategory(String category) {
                         _buildItem("White Hot Chocolate", "assets/White Hot Chocolate.jpg", 200),
                         _buildItem("Vanilla Crème", "assets/Vanilla Crème.jpg", 150),
                   ]),
-                  const SizedBox(height: 20,)
+                  const SizedBox(height: 20,),
                 ],
               ),
         ]),
@@ -303,7 +304,7 @@ void _selectCategory(String category) {
             children: [
               ProductButton(
                     price: cost
-                    ,),
+                    ),
             ],
           ),
         ],
