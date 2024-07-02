@@ -10,17 +10,15 @@ class ProductButton extends StatefulWidget {
 }
 
 class _ProductButtonState extends State<ProductButton> {
-  late int totalItemsInCart;
+  int totalItemsInCart = 0;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
           if (totalItemsInCart < 10) {
-            totalItemsInCart++; // Увеличиваем общее количество товаров в корзине
-            // Здесь должна быть логика добавления товара в корзину
+            totalItemsInCart++;
           } else {
-            // Показываем SnackBar, если достигнуто максимальное количество товаров в корзине
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Максимальное количество товаров в корзине - 10'),
@@ -59,7 +57,6 @@ class _ProductButtonState extends State<ProductButton> {
                           onTap: () {
                             setState(() {
                               if (totalItemsInCart > 0) totalItemsInCart--;
-                              // Здесь должна быть логика уменьшения количества товара в корзине
                             });
                           },
                           child: Container(
@@ -80,9 +77,7 @@ class _ProductButtonState extends State<ProductButton> {
                             setState(() {
                               if (totalItemsInCart < 10) {
                                 totalItemsInCart++;
-                                // Здесь должна быть логика добавления товара в корзину
                               } else {
-                                // Показываем SnackBar, если достигнуто максимальное количество товаров в корзине
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Максимальное количество товаров в корзине - 10'),
