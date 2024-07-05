@@ -66,7 +66,7 @@ class _ProductButtonState extends State<ProductButton> {
                   width: 60,
                   height: 35,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(20),
                     color:  const Color.fromRGBO(205, 180, 219, 1) ,
                   ),
                   child: Center(
@@ -89,7 +89,7 @@ class _ProductButtonState extends State<ProductButton> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('Превышено количество товара в корзине'),
+                            content: Text('Вы не можете добавить более 10 товаров'),
                           ),
                         );
                       }
